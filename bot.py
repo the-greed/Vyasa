@@ -85,10 +85,6 @@ async def random(ctx):
 async def info(ctx):
     ctx.send("info")
 
-@bot.command()
-async def help(ctx):
-    ctx.send("help")
-
 bot.run(os.environ.get('BOT_TOKEN', None))
 
 conn.close()
