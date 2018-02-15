@@ -5,8 +5,8 @@ import discord
 from discord.ext import commands
 
 try:
-    conn = sqlite3.connect('gita.db')
-    cur = conn.cursor()
+    CONNECT = sqlite3.connect('gita.db')
+    CURSOR = CONNECT.cursor()
 except sqlite3.Error as error_db:
     print(error_db)
 
@@ -35,7 +35,7 @@ async def on_message(message):
     await bot.invoke(ctx)
 
 @bot.command()
-async def gita(ctx, nchapter:int, nsutra:int, nsutra_end=None):
+async def gita(ctx, nchapter: int, nsutra: int, nsutra_end=None):
     # args[0] the chapter, args[1] is the sutra
     # checking if the entered values are int and
     # a sutra for that number is present
@@ -65,9 +65,9 @@ async def gita(ctx, nchapter:int, nsutra:int, nsutra_end=None):
         print("== == ERROR 1st == ==\n")
         print(error)
 
-def fetch_sutra(nchapter:int, nsutra:int):
-    cur.execute("SELECT sutra FROM sutras WHERE chapter=? AND nsutra=?", (nchapter, nsutra,))
-    return ''.join(cur.fetchone())
+def fetch_sutra(nchapter: int, nsutra: int):
+    CURSOR.execute("SELECT sutra FROM sutras WHERE chapter=? AND nsutra=?", (nchapter, nsutra,))
+    return ''.join(CURSOR.fetchone())
 
 @bot.command()
 async def random(ctx):
@@ -83,8 +83,25 @@ async def random(ctx):
 
 @bot.command()
 async def info(ctx):
-    ctx.send("info")
+    embed = discord.Embed(title="Sanjaya", description="A Discord Bot for Bhagavad Gita", color=0xeee657)
+    
+    embed.add_field(name="Author", value="Greed#1924")
+    embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
+    embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413033214836342794&permissions=2048&scope=bot)")
+
+    await ctx.send(embed=embed)
+
+bot.remove_command('help')
+
+@bot.command()
+async def help(ctx):
+    embed = discord.Embed(title="Sanjaya", description="A Discord Bot for Bhagavad Gita. List of commands:", color=0xeee657)
+    embed.add_field(name="@Sanjaya X Y", value="Prints the Verse number **Y** from Chapter number **X**", inline=False)
+    embed.add_field(name="@Sanjaya X Y Z", value="Prints the Verses from number **Y** till **Z** from Chapter number **X**", inline=False)
+    embed.add_field(name="@Sanjaya random", value="Prints a random verse from Bhagavad Gita.", inline=False)
+    embed.add_field(name="@Sanjaya help", value="Prints this message.", inline=False)
+    await ctx.send(embed=embed)
 
 bot.run(os.environ.get('BOT_TOKEN', None))
 
-conn.close()
+CONNECT.close()
