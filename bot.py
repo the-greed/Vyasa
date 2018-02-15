@@ -83,8 +83,8 @@ async def random(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title="Sanjaya", description="A Discord Bot for Bhagavad Gita", color=0xeee657)
-    
+    embed = discord.Embed(title="Vyasa", description="A Discord Bot for Bhagavad Gita", color=0xeee657)
+
     embed.add_field(name="Author", value="Greed#1924")
     embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
     embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413033214836342794&permissions=2048&scope=bot)")
@@ -95,11 +95,13 @@ bot.remove_command('help')
 
 @bot.command()
 async def help(ctx):
-    embed = discord.Embed(title="Sanjaya", description="A Discord Bot for Bhagavad Gita. List of commands:", color=0xeee657)
-    embed.add_field(name="@Sanjaya X Y", value="Prints the Verse number **Y** from Chapter number **X**", inline=False)
-    embed.add_field(name="@Sanjaya X Y Z", value="Prints the Verses from number **Y** till **Z** from Chapter number **X**", inline=False)
-    embed.add_field(name="@Sanjaya random", value="Prints a random verse from Bhagavad Gita.", inline=False)
-    embed.add_field(name="@Sanjaya help", value="Prints this message.", inline=False)
+    embed = discord.Embed(title="Vyasa", description="A Discord Bot for Bhagavad Gita. List of commands:", color=0xeee657)
+
+    embed.add_field(name="@Vyasa X Y", value="Prints the Verse number **Y** from Chapter number **X**", inline=False)
+    embed.add_field(name="@Vyasa X Y Z", value="Prints the Verses from number **Y** till **Z** from Chapter number **X**", inline=False)
+    embed.add_field(name="@Vyasa random", value="Prints a random verse from Bhagavad Gita.", inline=False)
+    embed.add_field(name="@Vyasa help", value="Prints this message.", inline=False)
+
     await ctx.send(embed=embed)
 
 bot.run(os.environ.get('BOT_TOKEN', None))
