@@ -100,6 +100,7 @@ async def help(ctx):
     embed.add_field(name="@Vyasa X Y", value="Prints the Verse number **Y** from Chapter number **X**", inline=False)
     embed.add_field(name="@Vyasa X Y Z", value="Prints the Verses from number **Y** till **Z** from Chapter number **X**", inline=False)
     embed.add_field(name="@Vyasa random", value="Prints a random verse from Bhagavad Gita.", inline=False)
+    embed.add_field(name="@Vyasa info", value="Print the information about the Vyasa and invite link.", inline=False)
     embed.add_field(name="@Vyasa help", value="Prints this message.", inline=False)
 
     await ctx.send(embed=embed)
