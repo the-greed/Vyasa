@@ -16,21 +16,25 @@ CHAPTERS = {1:47, 2:72, 3: 43, 4:42, 5:29, 6:47, 7:30, 8:28, 9:34, 10:42,\
 description = '''A bot to print the verses of the Srimad Bhagvad Gita'''
 bot = commands.Bot(command_prefix=commands.when_mentioned, description=description)
 
+game = discord.Game(name="@Vyasa help")
+
 @bot.event
 async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+    await bot.change_presence(status=discord.Status.idle, game=game)
+
 
 @bot.event
 async def on_message(message):
     ctx = await bot.get_context(message)
-    # if ctx.command is None and ctx.invoked_with is not None:
-    if ctx.command is None:
+    if ctx.command is None and ctx.invoked_with is not None:
+    # if ctx.command is None:
         ctx.view.undo()
         ctx.prefix = ctx.view.buffer[:ctx.view.index]
-        # ctx.invoked_with = 'gita'
+        ctx.invoked_with = 'gita'
         ctx.command = bot.all_commands.get('gita')
     await bot.invoke(ctx)
 
@@ -83,19 +87,24 @@ async def random(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title="Vyasa", description="A Discord Bot for Bhagavad Gita", color=0xeee657)
+    embed = discord.Embed(title="Vyasa", description="A Discord Bot for **Bhagavad Gita**", color=0xeee657)
 
     embed.add_field(name="Author", value="Greed#1924")
     embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
-    embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413033214836342794&permissions=2048&scope=bot)")
+    embed.add_field(name="Bot Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413753566461820928&permissions=18432&scope=bot)")
+    embed.add_field(name="Support Server", value="[Invite link](https://discord.gg/HJ8EtKt)")
 
     await ctx.send(embed=embed)
+
+@bot.command()
+async def test(ctx):
+    await ctx.send("test text message")
 
 bot.remove_command('help')
 
 @bot.command()
 async def help(ctx):
-    embed = discord.Embed(title="Vyasa", description="A Discord Bot for Bhagavad Gita. List of commands:", color=0xeee657)
+    embed = discord.Embed(title="Vyasa", description="A Discord Bot for **Bhagavad Gita**. List of commands:", color=0xeee657)
 
     embed.add_field(name="@Vyasa X Y", value="Prints the Verse number **Y** from Chapter number **X**", inline=False)
     embed.add_field(name="@Vyasa X Y Z", value="Prints the Verses from number **Y** till **Z** from Chapter number **X**", inline=False)
