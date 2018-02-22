@@ -91,7 +91,8 @@ async def info(ctx):
 
     embed.add_field(name="Author", value="Greed#1924")
     embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
-    embed.add_field(name="Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413753566461820928&permissions=18432&scope=bot)")
+    embed.add_field(name="Bot Invite", value="[Invite link](https://discordapp.com/api/oauth2/authorize?client_id=413753566461820928&permissions=18432&scope=bot)")
+    embed.add_field(name="Support Server", value="[Invite link](https://discord.gg/HJ8EtKt)")
 
     await ctx.send(embed=embed)
 
