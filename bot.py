@@ -19,10 +19,6 @@ bot = commands.Bot(command_prefix=commands.when_mentioned, description=descripti
 
 game = discord.Game(name="@Vyasa help")
 
-dbltoken = os.environ.get('DBL_TOKEN', None)
-url = "https://discordbots.org/api/bots/" + bot.user.id + "/stats"
-headers = {"Authorization" : dbltoken}
-
 @bot.event
 async def on_ready():
     print('Logged in as')
@@ -30,19 +26,6 @@ async def on_ready():
     print(bot.user.id)
     print('------')
     await bot.change_presence(status=discord.Status.online, game=game)
-    payload = {"server_count"  : len(bot.guilds)}
-    async with aiohttp.ClientSession() as aioclient:
-            await aioclient.post(url, data=payload, headers=headers)
-
-async def on_server_join(server):
-    payload = {"server_count"  : len(bot.guilds)}
-    async with aiohttp.ClientSession() as aioclient:
-            await aioclient.post(url, data=payload, headers=headers)
-
-async def on_server_remove(server):
-    payload = {"server_count"  : len(bot.guilds)}
-    async with aiohttp.ClientSession() as aioclient:
-            await aioclient.post(url, data=payload, headers=headers)
 
 @bot.event
 async def on_message(message):
