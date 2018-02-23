@@ -2,6 +2,7 @@ import os
 import random as rd
 import sqlite3
 import discord
+import aiohttp
 from discord.ext import commands
 
 try:
@@ -18,14 +19,30 @@ bot = commands.Bot(command_prefix=commands.when_mentioned, description=descripti
 
 game = discord.Game(name="@Vyasa help")
 
+dbltoken = os.environ.get('DBL_TOKEN', None)
+url = "https://discordbots.org/api/bots/" + bot.user.id + "/stats"
+headers = {"Authorization" : dbltoken}
+
 @bot.event
 async def on_ready():
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    await bot.change_presence(status=discord.Status.idle, game=game)
+    await bot.change_presence(status=discord.Status.online, game=game)
+    payload = {"server_count"  : len(bot.guilds)}
+    async with aiohttp.ClientSession() as aioclient:
+            await aioclient.post(url, data=payload, headers=headers)
 
+async def on_server_join(server):
+    payload = {"server_count"  : len(bot.guilds)}
+    async with aiohttp.ClientSession() as aioclient:
+            await aioclient.post(url, data=payload, headers=headers)
+
+async def on_server_remove(server):
+    payload = {"server_count"  : len(bot.guilds)}
+    async with aiohttp.ClientSession() as aioclient:
+            await aioclient.post(url, data=payload, headers=headers)
 
 @bot.event
 async def on_message(message):
@@ -45,7 +62,6 @@ async def gita(ctx, nchapter: int, nsutra: int, nsutra_end=None):
     # a sutra for that number is present
 
     embed = discord.Embed(title="Bhagavad Gita", color=0xff9933)
-
 
     try:
         if nsutra in range(1, CHAPTERS.get(nchapter)+1):
