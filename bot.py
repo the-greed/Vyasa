@@ -2,8 +2,9 @@ import os
 import random as rd
 import sqlite3
 import discord
-import aiohttp
+
 from discord.ext import commands
+from datetime import datetime
 
 try:
     CONNECT = sqlite3.connect('gita.db')
@@ -68,6 +69,14 @@ async def gita(ctx, nchapter: int, nsutra: int, nsutra_end=None):
         print("== == ERROR 1st == ==\n")
         print(error)
 
+    # logging it in my channel
+    now = datetime.now()
+    channel = bot.get_channel(416922481044094976)
+    # await channel.send(f"{}**{ctx.author}** - {ctx.guild} - {ctx.channel}")
+    await channel.send(f"""{now.day}/{now.month}/{now.year} | \
+{now.hour}:{now.minute} | {ctx.guild} - {ctx.channel} - {ctx.author} | \
+{nchapter}:{nsutra}-{nsutra_end}""")
+
 def fetch_sutra(nchapter: int, nsutra: int):
     CURSOR.execute("SELECT sutra FROM sutras WHERE chapter=? AND nsutra=?", (nchapter, nsutra,))
     return ''.join(CURSOR.fetchone())
@@ -84,6 +93,14 @@ async def random(ctx):
     embed.add_field(name=f"{nchapter}:{nsutra}", value=sutra, inline=False)
     await ctx.send(embed=embed)
 
+    # logging it in my channel
+    now = datetime.now()
+    channel = bot.get_channel(416922481044094976)
+    # await channel.send(f"{}**{ctx.author}** - {ctx.guild} - {ctx.channel}")
+    await channel.send(f"""{now.day}/{now.month}/{now.year} | \
+{now.hour}:{now.minute} | {ctx.guild} - {ctx.channel} - {ctx.author} | \
+{nchapter}:{nsutra} | random""")
+
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(title="Vyasa", description="A Discord Bot for **Bhagavad Gita**", color=0xeee657)
@@ -95,9 +112,13 @@ async def info(ctx):
 
     await ctx.send(embed=embed)
 
-@bot.command()
-async def test(ctx):
-    await ctx.send("test text message")
+    # logging it in my channel
+    now = datetime.now()
+    channel = bot.get_channel(416922481044094976)
+    # await channel.send(f"{}**{ctx.author}** - {ctx.guild} - {ctx.channel}")
+    await channel.send(f"""{now.day}/{now.month}/{now.year} | \
+{now.hour}:{now.minute} | {ctx.guild} - {ctx.channel} - {ctx.author} | info""")
+
 
 bot.remove_command('help')
 
@@ -112,6 +133,14 @@ async def help(ctx):
     embed.add_field(name="@Vyasa help", value="Prints this message.", inline=False)
 
     await ctx.send(embed=embed)
+
+    # logging it in my channel
+    now = datetime.now()
+    channel = bot.get_channel(416922481044094976)
+    # await channel.send(f"{}**{ctx.author}** - {ctx.guild} - {ctx.channel}")
+    await channel.send(f"""{now.day}/{now.month}/{now.year} | \
+{now.hour}:{now.minute} | {ctx.guild} - {ctx.channel} - {ctx.author} | help""")
+
 
 bot.run(os.environ.get('BOT_TOKEN', None))
 
